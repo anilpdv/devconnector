@@ -45,7 +45,7 @@ router.post(
       check("skills", "skills are required")
         .not()
         .isEmpty(),
-      check("handle", "shoudl be lenght of 5 or more").isLength({ min: 6 })
+      check("handle", "should be lenght of 5 or more").isLength({ min: 6 })
     ]
   ],
 
@@ -213,7 +213,7 @@ router.post(
       check("school", "scholl is required")
         .not()
         .isEmpty(),
-      check("degree", "degree i required")
+      check("degree", "degree is required")
         .not()
         .isEmpty(),
       check("from", "from is required")

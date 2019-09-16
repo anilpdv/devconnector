@@ -2,12 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const expressOasGenerator = require("express-oas-generator");
 
 const app = express();
 
 // : middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// oas generator
+expressOasGenerator.init(app, {});
 
 const db = require("./config/keys").mongoURI;
 
@@ -16,7 +20,7 @@ const profile = require("./routes/api/profile");
 const users = require("./routes/api/users");
 
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(db, { useNewUrlParser: true, useCreateIndex: true })
   .then(success => console.log("mongodb connected"))
   .catch(err => console.log(err));
 
