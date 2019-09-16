@@ -237,7 +237,7 @@ router.post(
         current: req.body.current
       };
 
-      profile.education.unshift(newExp);
+      profile.education.unshift(newEdu);
 
       profile.save().then(profile => {
         res.json(profile);
