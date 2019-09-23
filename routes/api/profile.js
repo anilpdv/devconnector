@@ -21,12 +21,12 @@ router.get(
     Profile.findOne({ user: req.user.id })
       .populate("users", ["name", "avatar"])
       .then(profile => {
-        console.log(profile);
+       
         if (!profile) {
           errors.noProfile = "profile not found";
           return res.status(404).json(errors);
         }
-        res.json(profile);
+        res.status(200).json({ profile });
       });
   }
 );
@@ -118,7 +118,7 @@ router.get("/handle/:handle", (req, res) => {
     .then(profile => {
       if (!profile) {
         errors.noProfile = "profile not found";
-        return res.status(400).json(errors);
+        return res.status(404).json({ errors });
       }
       res.json(profile);
     });

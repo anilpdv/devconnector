@@ -20,7 +20,11 @@ const profile = require("./routes/api/profile");
 const users = require("./routes/api/users");
 
 mongoose
-  .connect(db, { useNewUrlParser: true, useCreateIndex: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+  })
   .then(success => console.log("mongodb connected"))
   .catch(err => console.log(err));
 
@@ -36,6 +40,4 @@ app.use("/api/users", users);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`app is started and running on http://localhost:${port}`);
-});
+module.exports = app;

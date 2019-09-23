@@ -30,7 +30,7 @@ router.post(
     check("email")
       .isEmail()
       .withMessage("please enter valid email"),
-    check("password", "password muust be 6 or more characters").isLength({
+    check("password", "password must be 6 or more characters").isLength({
       min: 6
     })
   ],
@@ -44,8 +44,10 @@ router.post(
     //    return res.status(400).json(errors);
     //  }
     User.findOne({ email: req.body.email }).then(user => {
+      console.log(" user find one ");
       if (user) {
-        res.status(200).json({ errors: [{ msg: "User already Exists" }] });
+        console.log("user already exists");
+        res.status(400).json({ errors: [{ msg: "User already Exists" }] });
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: "200",
@@ -64,7 +66,7 @@ router.post(
             newuser.password = hash;
             newuser
               .save()
-              .then(savedData => res.json(savedData))
+              .then(savedData => res.status(201).json({ user: savedData }))
               .catch(err => console.log(err));
           });
         });
@@ -80,14 +82,14 @@ router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginIput(req.body);
 
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(400).json({ errors });
   }
   const email = req.body.email;
   const password = req.body.password;
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      return res.status(404).json({ email: " User not found" });
+      return res.status(404).json({ email: "User not found" });
     }
 
     bcrypt.compare(password, user.password).then(isMatch => {
@@ -98,7 +100,7 @@ router.post("/login", (req, res) => {
           keys.secretOrKey,
           { expiresIn: 3600 },
           (err, token) => {
-            res.json({ success: true, token: "Bearer " + token });
+            res.status(200).json({ success: true, token: "Bearer " + token });
           }
         );
       } else {
@@ -115,7 +117,7 @@ router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    return res.json(req.user);
+    return res.status(200).json(req.user);
   }
 );
 
