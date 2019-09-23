@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../../server");
 
 module.exports = async (
-  email = "pdvanil990@gmail.com",
+  email = "pdvanil980@gmail.com",
   password = "4343jljflaf"
 ) => {
   const valid_input = {

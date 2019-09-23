@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../../server");
 const User = require("../../models/User");
+const Profile = require("../../models/Profile");
 
 const Register_route = "/api/users/register";
 
@@ -10,7 +11,9 @@ describe("User Registration", () => {
   beforeAll(async done => {
     try {
       const res = await User.find({}).deleteMany();
+      const profile_res = await Profile.find({}).deleteMany();
       console.log("user removed");
+      console.log("profile removed");
       done();
     } catch (err) {
       console.log(err);
@@ -20,7 +23,7 @@ describe("User Registration", () => {
   // postive test case
   it("should return 201 status with user in it", async done => {
     const valid_input = {
-      email: "pdvanil990@gmail.com",
+      email: "pdvanil980@gmail.com",
       name: "anilpdv",
       password: "4343jljflaf"
     };
@@ -37,7 +40,7 @@ describe("User Registration", () => {
   // negative test case
   it("should return 400 and message user already exists", async done => {
     const invalid_input = {
-      email: "pdvanil990@gmail.com",
+      email: "pdvanil980@gmail.com",
       name: "anilpdv",
       password: "4343jljflaf"
     };
@@ -54,7 +57,7 @@ describe("User Registration", () => {
   // negative test case
   it("should return 400 status message with name required", async done => {
     const invalid_input = {
-      email: "pdvanil990@gmail.com",
+      email: "pdvanil980@gmail.com",
       name: "",
       password: "434jflajfj"
     };

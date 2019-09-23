@@ -3,7 +3,7 @@ const app = require("../../server");
 const Login_route = "/api/users/login";
 
 const valid_input = {
-  email: "pdvanil990@gmail.com",
+  email: "pdvanil980@gmail.com",
   password: "4343jljflaf"
 };
 
@@ -80,7 +80,7 @@ describe("Login Test cases", () => {
   // negative test case
   it("should return 400 status and message password is incorrect", async done => {
     const invalid_input = {
-      email: "pdvanil990@gmail.com",
+      email: "pdvanil980@gmail.com",
       password: "4343jljfla"
     };
     const res = await request(app)

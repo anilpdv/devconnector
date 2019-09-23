@@ -21,7 +21,6 @@ router.get(
     Profile.findOne({ user: req.user.id })
       .populate("users", ["name", "avatar"])
       .then(profile => {
-       
         if (!profile) {
           errors.noProfile = "profile not found";
           return res.status(404).json(errors);
@@ -83,22 +82,33 @@ router.post(
     if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
 
     Profile.findOne({ user: req.user.id }).then(profile => {
-      if (profile) {
+      // Create new profile
+      if (!profile) {
+        Profile.findOne({ handle: profileFields.handle }).then(profile => {
+          if (profile) {
+            errors.handle = "handle already exists";
+            return res.status(400).json(errors);
+          } else {
+            new Profile(profileFields).save().then(profile => {
+              res.status(200).json({ profile });
+            });
+          }
+        });
+      }
+      // Update the profile
+      else {
+        // Check if handle exists for other user
+        Profile.findOne({ handle: profileFields.handle }).then(p => {
+          if (profile.handle !== p.handle) {
+            errors.handle = "handle already exists";
+            res.status(400).json(errors);
+          }
+        });
         Profile.findOneAndUpdate(
           { user: req.user.id },
           { $set: profileFields },
           { new: true }
-        )
-          .then(profile => res.json(profile))
-          .catch(err => console.log(err));
-      } else {
-        Profile.findOne({ handle: profileFields.hanlde }).then(profile => {
-          if (profile) {
-            errors.handle = "handle already exists";
-            res.status(400).json(errors);
-          }
-          new Profile(profileFields).save().then(profile => res.json(profile));
-        });
+        ).then(profile => res.status(200).json(profile));
       }
     });
   }
