@@ -30,6 +30,13 @@ mongoose
 
 // : passport midlleware
 app.use(passport.initialize());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 require("./config/passport")(passport);
 
 app.get("/", (req, res) => res.send("hello world"));
@@ -38,9 +45,10 @@ app.use("/api/posts", posts);
 app.use("/api/profile", profile);
 app.use("/api/users", users);
 
-const port = process.env.PORT || 5000;
-//app.listen(port, () => {
-//  console.log("app is start and running on localhost:" + port);
-//});
-
+const port = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => {
+    console.log("app is start and running on localhost:" + port);
+  });
+}
 module.exports = app;
