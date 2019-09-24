@@ -103,6 +103,8 @@ describe("Profile Get /api/profile requests", () => {
       .get("/api/profile")
       .set("Authorization", token)
       .expect(200);
+    expect(res.body.profile).toBeTruthy();
+
     done();
   });
 
@@ -117,13 +119,60 @@ describe("Profile Get /api/profile requests", () => {
   });
 });
 
+// experience routes
 describe("Profile /experience routes", () => {
+  // negative case
   it("should return 400 ", async done => {
     const token = await tokenGen(valid_input.email, valid_input.password);
     const res = await request(app)
       .post("/api/profile/experience")
       .set("Authorization", token)
       .send({ title: "" })
+      .expect(400);
+    done();
+  });
+
+  // negative case
+  it("should return 400 ", async done => {
+    const token = await tokenGen();
+    const res = await request(app)
+      .post("/api/profile/experience")
+      .set("Authorization", token)
+      .send({ title: "developer", company: "", from: "20-05-2015" })
+      .expect(400);
+    done();
+  });
+
+  // negative case
+  it("should return 400 ", async done => {
+    const token = await tokenGen();
+    const res = await request(app)
+      .post("/api/profile/experience")
+      .set("Authorization", token)
+      .send({ title: "", company: "msr", from: "20-05-2015" })
+      .expect(400);
+    done();
+  });
+  // negative case
+  it("should return 400 ", async done => {
+    const token = await tokenGen();
+    const res = await request(app)
+      .post("/api/profile/experience")
+      .set("Authorization", token)
+      .send({ title: "anilpdv", company: "msr", from: "" })
+      .expect(400);
+    done();
+  });
+});
+
+// education routes
+describe("Profile education routes", () => {
+  it("should return 400 status", async done => {
+    const token = await tokenGen();
+    const res = request(app)
+      .post("/api/profile/education")
+      .set("Authentication", token)
+      .send({ school: "" })
       .expect(400);
     done();
   });

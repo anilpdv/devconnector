@@ -44,7 +44,7 @@ router.post(
       check("skills", "skills are required")
         .not()
         .isEmpty(),
-      check("handle", "should be lenght of 5 or more").isLength({ min: 6 })
+      check("handle", "should be length of 5 or more").isLength({ min: 6 })
     ]
   ],
 
@@ -220,7 +220,7 @@ router.post(
   [
     passport.authenticate("jwt", { session: false }),
     [
-      check("school", "scholl is required")
+      check("school", "school is required")
         .not()
         .isEmpty(),
       check("degree", "degree is required")
