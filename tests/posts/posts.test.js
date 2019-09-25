@@ -162,3 +162,54 @@ describe("Posts like routes", () => {
     done();
   });
 });
+
+// comments routes
+describe("Post comments routes", () => {
+  it("should return 400 status", async done => {
+    const token = await tokenGen();
+    const res = await request(app).get("/api/posts");
+    const post_id = res.body.posts[0]._id;
+    const comment_res = await request(app)
+      .post("/api/posts/comment/" + post_id)
+      .set("Authorization", token)
+      .send({ text: "this is supernatural to human to ponder in existence." })
+      .expect(200);
+    done();
+  });
+
+  it("should return 400 status", async done => {
+    const token = await tokenGen();
+    const res = await request(app).get("/api/posts");
+    const post_id = res.body.posts[0]._id;
+    const comment_res = await request(app)
+      .post("/api/posts/comment/" + post_id)
+      .set("Authorization", token)
+      .expect(400);
+    done();
+  });
+
+  // negative case
+  it("should return 404 status", async done => {
+    const token = await tokenGen();
+    const res = await request(app).get("/api/posts");
+    const post_id = res.body.posts[0]._id;
+    const comment_id = res.body.posts[0].comments[0]._id + "s";
+    const comment_res = await request(app)
+      .delete("/api/posts/comment/" + post_id + "/" + comment_id)
+      .set("Authorization", token)
+      .expect(404);
+    done();
+  });
+
+  it("should return 200 status", async done => {
+    const token = await tokenGen();
+    const res = await request(app).get("/api/posts");
+    const post_id = res.body.posts[0]._id;
+    const comment_id = res.body.posts[0].comments[0]._id;
+    const comment_res = await request(app)
+      .delete("/api/posts/comment/" + post_id + "/" + comment_id)
+      .set("Authorization", token)
+      .expect(200);
+    done();
+  });
+});
