@@ -2,6 +2,7 @@ const request = require("supertest");
 const app = require("../../server");
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
+const Posts = require("../../models/Posts");
 
 const Register_route = "/api/users/register";
 
@@ -12,6 +13,7 @@ describe("User Registration", () => {
     try {
       const res = await User.find({}).deleteMany();
       const profile_res = await Profile.find({}).deleteMany();
+      const posts = await Posts.find({}).deleteMany();
       console.log("user removed");
       console.log("profile removed");
       done();
