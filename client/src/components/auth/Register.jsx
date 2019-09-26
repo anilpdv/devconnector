@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { registerUser } from "../../actions/auth";
 
-export default function Register() {
+function Register(props) {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -13,23 +16,20 @@ export default function Register() {
   const onChange = e => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
+  const { user } = props.auth;
 
   const onSubmit = async e => {
     e.preventDefault();
     console.log(formState);
     try {
-      const res = await axios.post("/api/users/register", {
-        name,
-        email,
-        password
-      });
-      console.log(res.data);
+      props.registerUser({ name, email, password }, props.history);
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err);
     }
   };
   return (
     <div className="register">
+      {user ? user.name : null}
       <div className="container">
         <div className="row">
           <div className="col-md-8 m-auto">
@@ -89,3 +89,20 @@ export default function Register() {
     </div>
   );
 }
+
+Register.prototype = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    auth: state.auth,
+    errors: state.errors
+  };
+};
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(Register);

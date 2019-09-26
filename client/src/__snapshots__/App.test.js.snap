@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App Test should render every children without crashing 1`] = `ReactWrapper {}`;
+
+exports[`App Test should render without crashing 1`] = `ShallowWrapper {}`;
