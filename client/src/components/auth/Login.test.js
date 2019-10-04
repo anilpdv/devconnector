@@ -1,14 +1,34 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 import Login from "./Login";
 
 describe("Login Component", () => {
+  const login = shallow(<Login />);
   it("should render without crashing", () => {
-    shallow(<Login />);
+    expect(login).toMatchSnapshot();
   });
 
-  it("should call the function onChange", () => {
-    const login = shallow(<Login />);
-    login.find(".form-control").simulate("change");
+  describe("when the user input in to form", () => {
+    beforeEach(() => {
+      login.find(".email").simulate("change", {
+        target: {
+          value: "pdvanil007@gmail.com"
+        }
+      });
+      login.find(".password").simulate("change", {
+        target: {
+          value: "password"
+        }
+      });
+    });
+
+    it("should match the email", () => {
+      console.log(login.state());
+      expect(login.state().email).toEqual("pdvanil007@gmail.com");
+    });
+
+    it("should match the password", () => {
+      expect(login.state().password).toEqual("password");
+    });
   });
 });

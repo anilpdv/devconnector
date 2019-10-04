@@ -32,7 +32,10 @@ router.post(
       .withMessage("please enter valid email"),
     check("password", "password must be 6 or more characters").isLength({
       min: 6
-    })
+    }),
+    check("password2", "passwords must match").custom(
+      (value, { req }) => value === req.body.password
+    )
   ],
   (req, res) => {
     const errors = validationResult(req);
@@ -47,7 +50,9 @@ router.post(
       console.log(" user find one ");
       if (user) {
         console.log("user already exists");
-        res.status(400).json({ errors: [{ msg: "User already Exists" }] });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "User already Exists" }] });
       } else {
         const avatar = gravatar.url(req.body.email, {
           s: "200",
