@@ -48,7 +48,7 @@ export class Register extends Component {
                   {errors.errors ? errors.errors[0].msg.capitalize() : ""}
                 </div>
               ) : (
-                ""
+                "ii"
               )}
 
               <h1 className="display-4 text-center">Sign Up</h1>
