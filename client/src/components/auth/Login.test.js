@@ -1,9 +1,9 @@
 import React from "react";
-import { shallow } from "enzyme";
-import Login from "./Login";
+import { shallow, mount } from "enzyme";
+import { Login } from "./Login";
 
 describe("Login Component", () => {
-  const login = shallow(<Login />);
+  const login = mount(<Login />);
   it("should render without crashing", () => {
     expect(login).toMatchSnapshot();
   });
@@ -29,6 +29,35 @@ describe("Login Component", () => {
 
     it("should match the password", () => {
       expect(login.state().password).toEqual("password");
+    });
+  });
+});
+
+describe("Login ", () => {
+  const mockfn = jest.fn();
+  const props = { errors: {}, loginUser: mockfn };
+  const login = shallow(<Login {...props} />);
+
+  beforeEach(() => {
+    login.find(".email").simulate("change", {
+      target: {
+        value: "pdvanil007@gmail.com"
+      }
+    });
+    login.find(".password").simulate("change", {
+      target: {
+        value: "password"
+      }
+    });
+    login.find("form").simulate("submit", {
+      preventDefault: () => {}
+    });
+  });
+
+  it("should call the function with user data", () => {
+    expect(mockfn).toHaveBeenCalledWith({
+      email: "pdvanil007@gmail.com",
+      password: "password"
     });
   });
 });

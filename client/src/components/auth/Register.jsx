@@ -23,6 +23,7 @@ export class Register extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   onSubmit = async e => {
+    const { name, email, password, password2 } = this.state;
     e.preventDefault();
     try {
       this.props.registerUser(
@@ -36,6 +37,7 @@ export class Register extends Component {
   render() {
     const { errors } = this.props;
 
+    console.log(errors);
     return (
       <div className="register">
         <div className="container">
@@ -43,7 +45,7 @@ export class Register extends Component {
             <div className="col-md-8 m-auto">
               {errors ? (
                 <div className="alert alert-danger text-center" role="alert">
-                  {errors ? errors[0].msg.capitalize() : ""}
+                  {errors.errors ? errors.errors[0].msg.capitalize() : ""}
                 </div>
               ) : (
                 ""
@@ -110,7 +112,7 @@ export class Register extends Component {
   }
 }
 
-Register.protoType = {
+Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
