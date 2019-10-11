@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { registerUser } from "../../actions/auth";
+import { registerUser, setErrorsEmpty } from "../../actions/auth";
 
 String.prototype.capitalize = function() {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -17,6 +17,10 @@ export class Register extends Component {
       password: "",
       password2: ""
     };
+  }
+
+  componentDidMount() {
+    this.props.setErrorsEmpty();
   }
 
   onChange = e => {
@@ -44,11 +48,15 @@ export class Register extends Component {
           <div className="row">
             <div className="col-md-8 m-auto">
               {errors ? (
-                <div className="alert alert-danger text-center" role="alert">
-                  {errors.errors ? errors.errors[0].msg.capitalize() : ""}
-                </div>
+                errors.errors ? (
+                  <div className="alert alert-danger text-center" role="alert">
+                    {errors.errors ? errors.errors[0].msg.capitalize() : ""}
+                  </div>
+                ) : (
+                  ""
+                )
               ) : (
-                "ii"
+                ""
               )}
 
               <h1 className="display-4 text-center">Sign Up</h1>
@@ -126,5 +134,5 @@ const mapStateToProps = state => {
 };
 export default connect(
   mapStateToProps,
-  { registerUser }
+  { registerUser, setErrorsEmpty }
 )(Register);

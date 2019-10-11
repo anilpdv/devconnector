@@ -49,6 +49,7 @@ describe("Login ", () => {
         value: "password"
       }
     });
+
     login.find("form").simulate("submit", {
       preventDefault: () => {}
     });

@@ -6,12 +6,10 @@ import setAuthToken from "../utils/setAuthToken";
 export const registerUser = (userData, history) => async dispatch => {
   try {
     const res = await axios.post("/api/users/register", userData);
-    dispatch({ type: GET_ERRORS, payload: {} });
     history.push("/login");
   } catch (err) {
-    console.log(err.response);
     const errors = err.response.data;
-    dispatch({ type: GET_ERRORS, payload: errors });
+    dispatch(setErrors(errors));
   }
 };
 
@@ -32,11 +30,10 @@ export const loginUser = userData => async dispatch => {
 
     // dispatching the current user
     dispatch(setCurrentUser(decode));
-    dispatch({ type: GET_ERRORS, payload: {} });
   } catch (err) {
     console.log(err.response.data);
     const errors = err.response.data;
-    dispatch({ type: GET_ERRORS, payload: errors });
+    dispatch(setErrors(errors));
   }
 };
 
@@ -53,4 +50,15 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // setCurrentuser to empty obejct
   dispatch(setCurrentUser({}));
+};
+
+export const setErrors = errors => {
+  return {
+    type: GET_ERRORS,
+    payload: errors
+  };
+};
+
+export const setErrorsEmpty = () => dispatch => {
+  dispatch(setErrors({}));
 };

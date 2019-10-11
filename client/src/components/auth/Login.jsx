@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loginUser } from "../../actions/auth";
+import { loginUser, setErrorsEmpty } from "../../actions/auth";
 import PropTypes from "prop-types";
 
 export class Login extends Component {
@@ -11,6 +11,10 @@ export class Login extends Component {
       password: ""
     };
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.setErrorsEmpty();
   }
 
   onSubmit(e) {
@@ -99,5 +103,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { loginUser, setErrorsEmpty }
 )(Login);
