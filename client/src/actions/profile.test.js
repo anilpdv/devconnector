@@ -1,8 +1,14 @@
-import { setProfileLoading } from "./profile";
-import { PROFILE_LOADING } from "./types";
+import { setProfileLoading, clearCurrentProfile } from "./profile";
+import { PROFILE_LOADING, CLEAR_CURRENT_PROFILE } from "./types";
 
-it("should return expected action", () => {
+it("Action : set profile loading", () => {
   expect(setProfileLoading()).toEqual({
     type: PROFILE_LOADING
+  });
+});
+
+it("Action : clear current profile", () => {
+  expect(clearCurrentProfile()).toEqual({
+    type: CLEAR_CURRENT_PROFILE
   });
 });

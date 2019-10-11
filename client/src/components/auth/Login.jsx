@@ -14,7 +14,9 @@ export class Login extends Component {
   }
 
   componentDidMount() {
-    this.props.setErrorsEmpty();
+    if (this.props.setErrorsEmpty) {
+      this.props.setErrorsEmpty();
+    }
   }
 
   onSubmit(e) {

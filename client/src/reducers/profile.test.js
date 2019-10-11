@@ -1,5 +1,9 @@
 import profile from "./profile";
-import { GET_PROFILE, PROFILE_LOADING } from "../actions/types";
+import {
+  GET_PROFILE,
+  PROFILE_LOADING,
+  CLEAR_CURRENT_PROFILE
+} from "../actions/types";
 
 const state = {};
 it("should return the loading to be true", () => {
@@ -22,4 +26,14 @@ it("should return the data with payload data", () => {
   expect(
     profile(state, { type: GET_PROFILE, payload: expected_data.profile })
   ).toEqual(expected_data);
+});
+
+it("profile reducer CLEAR_CURRENT_PROFILE", () => {
+  const expected_data = {
+    profile: null
+  };
+
+  expect(profile(state, { type: CLEAR_CURRENT_PROFILE })).toEqual(
+    expected_data
+  );
 });

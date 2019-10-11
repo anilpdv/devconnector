@@ -20,7 +20,9 @@ export class Register extends Component {
   }
 
   componentDidMount() {
-    this.props.setErrorsEmpty();
+    if (this.props.setErrorsEmpty) {
+      this.props.setErrorsEmpty();
+    }
   }
 
   onChange = e => {
