@@ -24,7 +24,9 @@ export const Navbar = props => {
   );
 
   const redirect_to_login = () => {
-    props.history.push("/login");
+    if (props.history) {
+      props.history.push("/login");
+    }
   };
 
   const authLinks = (

@@ -12,6 +12,7 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./actions/auth";
 import Dashboard from "./components/dashboard/dashboard";
+import PrivateRoute from "./components/Routes/PrivateRoute";
 
 // check if the auth token exists
 if (localStorage.token) {
@@ -30,7 +31,7 @@ function App() {
           <Route exact path="/" render={props => <Landing {...props} />} />
           <Route path="/register" render={props => <Register {...props} />} />
           <Route path="/login" render={props => <Login {...props} />} />
-          <Route path="/dashboard" component={Dashboard} />} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
         </Switch>
         <Footer />
       </Router>

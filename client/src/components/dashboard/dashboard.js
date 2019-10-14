@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Loader from "react-loader-spinner";
 import PropTypes from "prop-types";
 import { getCurrentProfile } from "../../actions/profile";
+import { Link } from "react-router-dom";
 
 export class Dashboard extends Component {
   componentDidMount() {
@@ -12,13 +13,16 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { user } = this.props.auth;
+    const { user } = this.props.auth ? this.props.auth : { user: "" };
+
     const { profile, loading } = this.props.profile
       ? this.props.profile
-      : { profile: "", loadig: "" };
+      : { profile: "", loading: "" };
 
     let dashboardContent;
     if (profile === null || loading) {
+      console.log({ profile });
+      console.log({ loading });
       dashboardContent = (
         <Loader
           type="ThreeDots"
@@ -30,10 +34,18 @@ export class Dashboard extends Component {
       );
     } else {
       if (Object.keys(profile).lenght > 0) {
-        dashboardContent = <h1>TODO : add proile data in it</h1>;
+        dashboardContent = <span>TODO : add proile data in it</span>;
       } else {
         dashboardContent = (
-          <p className="text-muted">welcome {user ? user.name : ""}</p>
+          <div>
+            <p className="">welcome {user ? user.name : ""}</p>
+            <span className="text-muted pr-4">
+              we cannot find profile, create a profile here!
+            </span>
+            <Link className="btn btn-success" to="/create-profile">
+              create Profile
+            </Link>
+          </div>
         );
       }
     }
@@ -57,12 +69,10 @@ Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    profile: state.profile,
-    auth: state.auth
-  };
-};
+const mapStateToProps = state => ({
+  profile: state.profile,
+  auth: state.auth
+});
 
 export default connect(
   mapStateToProps,
