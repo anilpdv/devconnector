@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { createProfile } from "../../actions/profile";
 
 export class CreateProfile extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ export class CreateProfile extends Component {
   onSubmit = e => {
     e.preventDefault();
     console.log(this.state);
+    this.props.createProfile(this.state, this.props.history);
   };
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -47,13 +49,18 @@ export class CreateProfile extends Component {
                 let's create a profile so you can stand out.
               </p>
               <small className="d-block bd-3">* = required fields</small>
-              <form className="p-5 form" onSubmit={e => this.onSubmit(e)}>
+              <form
+                className="p-5 form"
+                onSubmit={e =>
+                  this.props.createProfile(this.state, this.props.history)
+                }
+              >
                 <div className="form-group">
                   <select
                     name="status"
                     value={this.state.status}
                     onChange={e => this.onChange(e)}
-                    className="form-control"
+                    className="form-control status"
                   >
                     <option value="0">* Select Professional Status</option>
                     <option value="Developer">Developer</option>
@@ -82,6 +89,19 @@ export class CreateProfile extends Component {
                   />
                   <small className="form-text">
                     Could be your own company or one you work for
+                  </small>
+                </div>
+                <div className="form-group">
+                  <input
+                    type="text"
+                    placeholder="Handle"
+                    name="handle"
+                    value={this.state.handle}
+                    onChange={e => this.onChange(e)}
+                    className="form-control handle"
+                  />
+                  <small className="form-text">
+                    enter the profie handle name.
                   </small>
                 </div>
                 <div className="form-group">
@@ -117,7 +137,7 @@ export class CreateProfile extends Component {
                     name="skills"
                     value={this.state.skills}
                     onChange={e => this.onChange(e)}
-                    className="form-control"
+                    className="form-control skills"
                   />
                   <small className="form-text">
                     Please use comma separated values (eg.
@@ -283,4 +303,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(
+  mapStateToProps,
+  { createProfile }
+)(CreateProfile);

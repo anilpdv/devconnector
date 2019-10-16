@@ -13,9 +13,12 @@ import {
   GET_ERRORS,
   GET_PROFILE
 } from "./types";
+import { JestEnvironment } from "@jest/environment";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
+
+jest.setTimeout(30000);
 
 beforeEach(() => {
   moxios.install();
