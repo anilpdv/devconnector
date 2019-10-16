@@ -14,14 +14,16 @@ const helperChange = (className, value) => {
 
 describe("component <CreateProfile/>", () => {
   it("should render without crashing", () => {
-    expect(createProfile).toMatchSnapshot();
+    expect(createProfileComponent).toMatchSnapshot();
   });
 
   describe("on changing the state of the component", () => {
     helperChange(".status", "Developer");
     helperChange(".skills", "Nodejs,Reactjs,javascript");
     helperChange(".handle", "anilpdv");
-    createProfileComponent.find("form").simulate("submit");
+    createProfileComponent
+      .find("form")
+      .simulate("submit", { preventDefault: () => {} });
   });
 
   it("should call the `createProfile` function", () => {

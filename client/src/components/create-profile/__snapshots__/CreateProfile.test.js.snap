@@ -1,5 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component <CreateProfile/> should render without crashing 1`] = `[MockFunction]`;
-
-exports[`should render without crashing 1`] = `ShallowWrapper {}`;
+exports[`component <CreateProfile/> should render without crashing 1`] = `ShallowWrapper {}`;

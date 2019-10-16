@@ -33,7 +33,7 @@ export class Dashboard extends Component {
         />
       );
     } else {
-      if (Object.keys(profile).lenght > 0) {
+      if (Object.keys(profile).length > 0) {
         dashboardContent = <span>TODO : add proile data in it</span>;
       } else {
         dashboardContent = (

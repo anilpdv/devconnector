@@ -39,11 +39,23 @@ export class CreateProfile extends Component {
   };
 
   render() {
+    const { errors } = this.props;
     return (
       <div className="create-profile">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
+              {errors ? (
+                errors.errors ? (
+                  <div className="text-center alert alert-danger" role="alert">
+                    {errors.errors ? errors.errors[0].msg.capitalize() : ""}
+                  </div>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
               <h1 className="display-4 text-center">create your profile</h1>
               <p className="lead text-center">
                 let's create a profile so you can stand out.
@@ -51,9 +63,10 @@ export class CreateProfile extends Component {
               <small className="d-block bd-3">* = required fields</small>
               <form
                 className="p-5 form"
-                onSubmit={e =>
-                  this.props.createProfile(this.state, this.props.history)
-                }
+                onSubmit={e => {
+                  e.preventDefault();
+                  this.props.createProfile(this.state, this.props.history);
+                }}
               >
                 <div className="form-group">
                   <select
