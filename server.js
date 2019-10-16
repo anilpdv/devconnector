@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const expressOasGenerator = require("express-oas-generator");
+const morgan = require("morgan");
 
 const app = express();
 
 // : middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(morgan("combined"));
 
 // oas generator
 expressOasGenerator.init(app, {});

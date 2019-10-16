@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "shallow";
+import { shallow } from "enzyme";
 import { CreateProfile } from "./CreateProfile";
 
 it("should render without crashing", () => {

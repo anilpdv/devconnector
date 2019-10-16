@@ -4,6 +4,7 @@ import { Login } from "./Login";
 
 describe("Login Component", () => {
   const login = mount(<Login />);
+
   it("should render without crashing", () => {
     expect(login).toMatchSnapshot();
   });
