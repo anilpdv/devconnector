@@ -5,7 +5,8 @@ import thunk from "redux-thunk";
 import {
   setProfileLoading,
   clearCurrentProfile,
-  createProfile
+  createProfile,
+  getCurrentProfile
 } from "./profile";
 import {
   PROFILE_LOADING,
@@ -13,6 +14,8 @@ import {
   GET_ERRORS,
   GET_PROFILE
 } from "./types";
+
+import { getCurrentProfileMock, createProfileMock } from "./mocks/actions";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
@@ -39,16 +42,35 @@ it("Action : clear current profile", () => {
   });
 });
 
+it("Action : getCurrentProfile", () => {
+  moxios.wait(() => {
+    const request = moxios.requests.mostRecent();
+    request.respondWith({
+      status: 200,
+      response: getCurrentProfileMock()
+    });
+  });
+
+  const expectedActions = [
+    { type: GET_PROFILE, payload: getCurrentProfileMock() }
+  ];
+
+  const store = mockStore({});
+  return store.dispatch(getCurrentProfile()).then(() => {
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+});
+
 it("Action : create profile", () => {
   moxios.wait(() => {
     const request = moxios.requests.mostRecent();
     request.respondWith({
       status: 400,
-      response: { errors: [] }
+      response: createProfileMock()
     });
   });
 
-  const expectedActions = [{ type: GET_ERRORS, payload: { errors: [] } }];
+  const expectedActions = [{ type: GET_ERRORS, payload: createProfileMock() }];
   const store = mockStore({});
   return store.dispatch(createProfile({}, {})).then(() => {
     console.log(store.getActions());

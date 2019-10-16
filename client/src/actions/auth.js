@@ -2,11 +2,11 @@ import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import axios from "axios";
 import decoded from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
-import { registerService } from "./service";
 
 export const registerUser = (userData, history) => async dispatch => {
   try {
-    registerService(userData, history);
+    const res = await axios.post("/api/users/register", userData);
+    history.push("/login");
   } catch (err) {
     const errors = err.response.data;
     dispatch(setErrors(errors));
