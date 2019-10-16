@@ -14,6 +14,7 @@ import { setCurrentUser } from "./actions/auth";
 import Dashboard from "./components/dashboard/dashboard";
 import PrivateRoute from "./components/Routes/PrivateRoute";
 import CreateProfile from "./components/create-profile/CreateProfile";
+import EditProfile from "./components/Edit-Profile";
 
 // check if the auth token exists
 if (localStorage.token) {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/login" render={props => <Login {...props} />} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/create-profile" component={CreateProfile} />
+          <Route path="/edit-profile" component={EditProfile} />
         </Switch>
         <Footer />
       </Router>

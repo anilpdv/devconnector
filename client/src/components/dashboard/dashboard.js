@@ -1,9 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import Loader from "react-loader-spinner";
 import PropTypes from "prop-types";
 import { getCurrentProfile } from "../../actions/profile";
 import { Link } from "react-router-dom";
+import ProfileActions from "./ProfileActions";
 
 export class Dashboard extends Component {
   componentDidMount() {
@@ -34,7 +35,15 @@ export class Dashboard extends Component {
       );
     } else {
       if (Object.keys(profile).length > 0) {
-        dashboardContent = <span>TODO : add proile data in it</span>;
+        dashboardContent = (
+          <Fragment>
+            <p>
+              welcome to
+              <Link to={`/profile/${profile.profile.handle}`}>{user.name}</Link>
+            </p>
+            <ProfileActions />
+          </Fragment>
+        );
       } else {
         dashboardContent = (
           <div>

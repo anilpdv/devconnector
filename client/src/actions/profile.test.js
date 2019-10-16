@@ -6,13 +6,16 @@ import {
   setProfileLoading,
   clearCurrentProfile,
   createProfile,
-  getCurrentProfile
+  getCurrentProfile,
+  deleteProfile
 } from "./profile";
+
 import {
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
-  GET_PROFILE
+  GET_PROFILE,
+  SET_CURRENT_USER
 } from "./types";
 
 import { getCurrentProfileMock, createProfileMock } from "./mocks/actions";
@@ -73,6 +76,24 @@ it("Action : create profile", () => {
   const expectedActions = [{ type: GET_ERRORS, payload: createProfileMock() }];
   const store = mockStore({});
   return store.dispatch(createProfile({}, {})).then(() => {
+    console.log(store.getActions());
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+});
+
+it("Action : Delete profile", () => {
+  moxios.wait(() => {
+    const request = moxios.requests.mostRecent();
+    request.respondWith({
+      status: 200,
+      response: {}
+    });
+  });
+
+  const expectedActions = [{ type: SET_CURRENT_USER, payload: {} }];
+
+  const store = mockStore({});
+  return store.dispatch(deleteProfile()).then(() => {
     console.log(store.getActions());
     expect(store.getActions()).toEqual(expectedActions);
   });
