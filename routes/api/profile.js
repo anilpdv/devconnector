@@ -177,13 +177,14 @@ router.post(
   [
     passport.authenticate("jwt", { session: false }),
     [
-      check("title")
+      check("company", "Company is required")
         .not()
         .isEmpty(),
-      check("company")
+      check("title", "Title is required")
         .not()
         .isEmpty(),
-      check("from")
+
+      check("from", "from is required")
         .not()
         .isEmpty()
     ]

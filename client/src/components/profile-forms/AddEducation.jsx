@@ -55,7 +55,6 @@ export class AddEducation extends Component {
                     name="school"
                     value={this.state.school}
                     onChange={e => this.onChange(e)}
-                    required
                   />
                 </div>
                 <div className="form-group">
@@ -66,7 +65,6 @@ export class AddEducation extends Component {
                     name="degree"
                     value={this.state.degree}
                     onChange={e => this.onChange(e)}
-                    required
                   />
                 </div>
                 <div className="form-group">

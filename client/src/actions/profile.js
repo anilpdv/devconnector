@@ -45,12 +45,26 @@ export const deleteProfile = () => dispatch => {
   }
 };
 
-export const addEducation = () => {
-  return {};
+export const addEducation = (eduData, history) => dispatch => {
+  return axios
+    .post("/api/profile/education", eduData)
+    .then(() => {
+      history.push("/dashboard");
+    })
+    .catch(err => {
+      dispatch({ type: GET_ERRORS, payload: err.response.data });
+    });
 };
 
-export const addExperience = () => {
-  return {};
+export const addExperience = (expData, history) => dispatch => {
+  return axios
+    .post("/api/profile/experience", expData)
+    .then(() => {
+      history.push("/dashboard");
+    })
+    .catch(err => {
+      dispatch({ type: GET_ERRORS, payload: err.response.data });
+    });
 };
 
 export const setProfileLoading = () => {

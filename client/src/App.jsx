@@ -16,7 +16,7 @@ import PrivateRoute from "./components/Routes/PrivateRoute";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/Edit-Profile";
 import AddEducation from "./components/profile-forms/AddEducation";
-import { AddExperience } from "./components/profile-forms/AddExperience";
+import AddExperience from "./components/profile-forms/AddExperience";
 
 // check if the auth token exists
 if (localStorage.token) {

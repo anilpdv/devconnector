@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { addExperience } from "../../actions/profile";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export class AddExperience extends Component {
   constructor(props) {
@@ -19,6 +21,26 @@ export class AddExperience extends Component {
       toDateDisabled: false
     };
   }
+
+  alertError = errorMsg =>
+    toast.error(errorMsg, {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+  componentDidUpdate(prevProps) {
+    if (prevProps.errors !== this.props.errors) {
+      const { errors } = this.props;
+      if (errors) {
+        if (errors.errors) {
+          this.alertError(errors.errors[0].msg.capitalize());
+        }
+      }
+    }
+  }
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -31,6 +53,7 @@ export class AddExperience extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-8 m-auto">
+            <ToastContainer />
             <Fragment>
               <h1 className="large text-primary">Add Your Experience</h1>
               <p className="lead">
@@ -56,7 +79,6 @@ export class AddExperience extends Component {
                     name="company"
                     value={this.state.company}
                     onChange={e => this.onChange(e)}
-                    required
                   />
                 </div>
                 <div className="form-group">
@@ -67,7 +89,6 @@ export class AddExperience extends Component {
                     name="title"
                     value={this.state.title}
                     onChange={e => this.onChange(e)}
-                    required
                   />
                 </div>
                 <div className="form-group">
