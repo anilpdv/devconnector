@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { createProfile, getCurrentProfile } from "../actions/profile";
+import { createProfile, getCurrentProfile } from "../../actions/profile";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export class CreateProfile extends Component {
   constructor(props) {
@@ -23,6 +25,15 @@ export class CreateProfile extends Component {
       instagram: ""
     };
   }
+  alertSuccess = () =>
+    toast.success("Profile Updated!", {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
   componentDidMount() {
     this.props.getCurrentProfile();
   }
@@ -34,16 +45,35 @@ export class CreateProfile extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.profile !== this.props.profile) {
-      const { profile } = this.props.profile.profile;
-      this.setState({ handle: profile.handle, status: profile.status });
+      const { profile } = this.props.profile.profile
+        ? this.props.profile.profile
+        : { profile: {} };
+      const skills = profile.skills.join(",");
+      this.setState({
+        handle: profile.handle,
+        status: profile.status,
+        skills: skills,
+        company: profile.company,
+        githubusername: profile.githubusername,
+        location: profile.location,
+        website: profile.website,
+        bio: profile.bio,
+        twitter: profile.twitter,
+        facebook: profile.facebook,
+        linkedin: profile.linkedin,
+        youtube: profile.youtube,
+        instagram: profile.instagram
+      });
     }
   }
 
   onSubmit = e => {
     e.preventDefault();
     console.log(this.state);
-    this.props.createProfile(this.state, this.props.history);
+    //this.props.createProfile(this.state, this.props.history);
+    this.alertSuccess();
   };
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -75,9 +105,12 @@ export class CreateProfile extends Component {
                 className="p-5 form"
                 onSubmit={e => {
                   e.preventDefault();
+
+                  this.alertSuccess();
                   this.props.createProfile(this.state, this.props.history);
                 }}
               >
+                <ToastContainer />
                 <div className="form-group">
                   <select
                     name="status"

@@ -2,16 +2,38 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import Loader from "react-loader-spinner";
 import PropTypes from "prop-types";
-import { getCurrentProfile } from "../../actions/profile";
+import { getCurrentProfile, deleteProfile } from "../../actions/profile";
+import { setErrorsEmpty, setLoggedIn } from "../../actions/auth";
 import { Link } from "react-router-dom";
 import ProfileActions from "./ProfileActions";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export class Dashboard extends Component {
   componentDidMount() {
     if (this.props.getCurrentProfile) {
       this.props.getCurrentProfile();
     }
+
+    if (this.props.setErrorsEmpty) {
+      this.props.setErrorsEmpty();
+    }
+
+    if (this.props.auth.loggedIn) {
+      this.alertSuccess();
+      this.props.setLoggedIn(false);
+    }
   }
+
+  alertSuccess = () =>
+    toast.success("Successfully logged in", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
 
   render() {
     const { user } = this.props.auth ? this.props.auth : { user: "" };
@@ -39,9 +61,23 @@ export class Dashboard extends Component {
           <Fragment>
             <p>
               welcome to
-              <Link to={`/profile/${profile.profile.handle}`}>{user.name}</Link>
+              <Link to={`/profile/${profile.profile.handle}`}>
+                {" "}
+                {user.name}{" "}
+              </Link>
             </p>
             <ProfileActions />
+            {/* TODO : education and profile */}
+            <div className="delete">
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  this.props.deleteProfile();
+                }}
+              >
+                Delete
+              </button>
+            </div>
           </Fragment>
         );
       } else {
@@ -65,6 +101,7 @@ export class Dashboard extends Component {
           <div className="row">
             <div className="col-md-12">
               <div className="dispaly-4">{dashboardContent}</div>
+              <ToastContainer />
             </div>
           </div>
         </div>
@@ -85,5 +122,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteProfile, setErrorsEmpty, setLoggedIn }
 )(Dashboard);

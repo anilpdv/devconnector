@@ -1,4 +1,4 @@
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, SET_LOGGEDIN_FALSE } from "./types";
 import axios from "axios";
 import decoded from "jwt-decode";
 import setAuthToken from "../utils/setAuthToken";
@@ -57,6 +57,10 @@ export const setErrors = errors => {
     type: GET_ERRORS,
     payload: errors
   };
+};
+
+export const setLoggedIn = value => {
+  return { type: SET_LOGGEDIN_FALSE, payload: value };
 };
 
 export const setErrorsEmpty = () => dispatch => {

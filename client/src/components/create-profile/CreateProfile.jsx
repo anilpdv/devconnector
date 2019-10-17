@@ -34,6 +34,7 @@ export class CreateProfile extends Component {
     console.log(this.state);
     this.props.createProfile(this.state, this.props.history);
   };
+  3;
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };

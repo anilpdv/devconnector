@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { loginUser, setErrorsEmpty } from "../../actions/auth";
+import { loginUser, setErrorsEmpty, setLoggedIn } from "../../actions/auth";
 import PropTypes from "prop-types";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export class Login extends Component {
   constructor(props) {
@@ -19,6 +21,16 @@ export class Login extends Component {
     }
   }
 
+  alertError = errorMsg =>
+    toast.error(errorMsg, {
+      position: "top-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    });
+
   onSubmit(e) {
     e.preventDefault();
     const userData = {
@@ -28,33 +40,34 @@ export class Login extends Component {
     this.props.loginUser(userData);
   }
 
-  componentDidUpdate() {
-    if (this.props.auth) {
-      if (this.props.auth.isAuthenticated === true) {
-        this.props.history.push("/dashboard");
+  componentDidUpdate(prevProps) {
+    if (prevProps.auth !== this.props.auth) {
+      if (this.props.auth) {
+        if (this.props.auth.isAuthenticated === true) {
+          this.props.setLoggedIn(true);
+          this.props.history.push("/dashboard");
+        }
+      }
+    }
+
+    if (prevProps.errors !== this.props.errors) {
+      const { errors } = this.props;
+      if (errors) {
+        if (errors.errors) {
+          this.alertError(errors.errors[0].msg.capitalize());
+        }
       }
     }
   }
 
   render() {
-    const { errors } = this.props;
-
     return (
       <div className="login">
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
-              {errors ? (
-                errors.errors ? (
-                  <div className="alert alert-danger text-center" role="alert">
-                    {errors.errors ? errors.errors[0].msg.capitalize() : ""}
-                  </div>
-                ) : (
-                  ""
-                )
-              ) : (
-                ""
-              )}
+              <ToastContainer />
+
               <h1 className="display-4 text-center">Log In</h1>
               <p className="lead text-center">
                 Sign in to your DevConnector account
@@ -105,5 +118,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginUser, setErrorsEmpty }
+  { loginUser, setErrorsEmpty, setLoggedIn }
 )(Login);
