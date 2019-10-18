@@ -31,6 +31,10 @@ export class Login extends Component {
       draggable: true
     });
 
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   onSubmit(e) {
     e.preventDefault();
     const userData = {
@@ -80,7 +84,7 @@ export class Login extends Component {
                     placeholder="Email Address"
                     name="email"
                     value={this.state.email}
-                    onChange={e => this.setState({ email: e.target.value })}
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className="form-group">

@@ -25,7 +25,7 @@ describe("Login Component", () => {
 
     it("should match the email", () => {
       console.log(login.state());
-      expect(login.state().email).toEqual("pdvanil007@gmail.com");
+      expect(login.instance.onChange).toEqual("pdvanil007@gmail.com");
     });
 
     it("should match the password", () => {

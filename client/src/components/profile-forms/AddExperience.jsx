@@ -31,6 +31,7 @@ export class AddExperience extends Component {
       pauseOnHover: true,
       draggable: true
     });
+
   componentDidUpdate(prevProps) {
     if (prevProps.errors !== this.props.errors) {
       const { errors } = this.props;
@@ -41,6 +42,7 @@ export class AddExperience extends Component {
       }
     }
   }
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };

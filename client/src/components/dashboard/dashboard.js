@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import ProfileActions from "./ProfileActions";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Experience from "./Experience";
 
 export class Dashboard extends Component {
   componentDidMount() {
@@ -67,6 +68,11 @@ export class Dashboard extends Component {
               </Link>
             </p>
             <ProfileActions />
+            {profile.experience ? (
+              <Experience experience={profile.experience} />
+            ) : (
+              ""
+            )}
             {/* TODO : education and profile */}
             <div className="delete">
               <button

@@ -13,28 +13,29 @@ export const registerUser = (userData, history) => async dispatch => {
   }
 };
 
-export const loginUser = userData => async dispatch => {
-  try {
-    const res = await axios.post("/api/users/login", userData);
+export const loginUser = userData => dispatch => {
+  return axios
+    .post("/api/users/login", userData)
+    .then(res => {
+      // taking the token
+      const { token } = res.data;
 
-    // taking the token
-    const { token } = res.data;
+      // storing it in localstorage
+      localStorage.setItem("token", token);
 
-    // storing it in localstorage
-    localStorage.setItem("token", token);
+      setAuthToken(token);
 
-    setAuthToken(token);
+      // decoding the data
+      const decode = decoded(token);
 
-    // decoding the data
-    const decode = decoded(token);
-
-    // dispatching the current user
-    dispatch(setCurrentUser(decode));
-  } catch (err) {
-    console.log(err.response.data);
-    const errors = err.response.data;
-    dispatch(setErrors(errors));
-  }
+      // dispatching the current user
+      dispatch(setCurrentUser(decode));
+    })
+    .catch(err => {
+      console.log(err.response.data);
+      const errors = err.response.data;
+      dispatch(setErrors(errors));
+    });
 };
 
 export const setCurrentUser = decode => {

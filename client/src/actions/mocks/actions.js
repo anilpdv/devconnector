@@ -15,3 +15,9 @@ export const getCurrentProfileMock = () => ({
 export const createProfileMock = () => ({
   errors: []
 });
+
+export const getLoginUser = () => ({
+  success: true,
+  token:
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYTk1MmY1MDBiYjhmNWFiYzYxMTcyZCIsIm5hbWUiOiJhbmlscGR2IiwiYXZhdGFyIjoiLy93d3cuZ3JhdmF0YXIuY29tL2F2YXRhci8yNGU5N2FmOTExMDYwZmU5OGE0ODAzYTVkODlhNGE3MT9zPTIwMCZkPW1tJnI9cGciLCJpYXQiOjE1NzEzODQ0MzYsImV4cCI6MTU3MTM4ODAzNn0.kCr6ycu9YMRFTE0kLpV-8v0SBlkUW3-5HxcmuEoVIF0"
+});
