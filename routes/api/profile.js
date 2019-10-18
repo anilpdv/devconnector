@@ -264,7 +264,7 @@ router.delete(
   "/experience/:exp_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    Profile.findOne({ user: req.user.id })
+    Profile.findOne({ user: req.user._id })
       .then(profile => {
         // : taking out the index to remove
         const removeIndex = profile.experience
@@ -273,7 +273,7 @@ router.delete(
         // : splice the array with given the index
         profile.experience.splice(removeIndex, 1);
 
-        profile.save().then(profile => res.status(200).json(profile));
+        profile.save().then(profile => res.json({profile}));
       })
       .catch(err => res.json(err));
   }

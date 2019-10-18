@@ -62,16 +62,16 @@ export class Dashboard extends Component {
           <Fragment>
             <p>
               welcome to
-              <Link to={`/profile/${profile.profile.handle}`}>
+              {/*
+             <Link to={`/profile/${profile.profile.handle}`}>
                 {" "}
                 {user.name}{" "}
               </Link>
+          */}{" "}
             </p>
             <ProfileActions />
-            {profile.experience ? (
-              <Experience experience={profile.experience} />
-            ) : (
-              ""
+            {profile.profile.experience && (
+              <Experience experience={profile.profile.experience} />
             )}
             {/* TODO : education and profile */}
             <div className="delete">

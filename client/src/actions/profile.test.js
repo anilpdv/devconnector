@@ -7,7 +7,8 @@ import {
   clearCurrentProfile,
   createProfile,
   getCurrentProfile,
-  deleteProfile
+  deleteProfile,
+  deleteExperience
 } from "./profile";
 
 import {
@@ -19,9 +20,20 @@ import {
 } from "./types";
 
 import { getCurrentProfileMock, createProfileMock } from "./mocks/actions";
+import { create } from "istanbul-reports";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);
+
+const respondWith = (status, response) => {
+  return moxios.wait(() => {
+    const request = moxios.requests.mostRecent();
+    request.respondWith({
+      status,
+      response
+    });
+  });
+};
 
 jest.setTimeout(30000);
 
@@ -46,14 +58,7 @@ it("Action : clear current profile", () => {
 });
 
 it("Action : getCurrentProfile", () => {
-  moxios.wait(() => {
-    const request = moxios.requests.mostRecent();
-    request.respondWith({
-      status: 200,
-      response: getCurrentProfileMock()
-    });
-  });
-
+  respondWith(200, getCurrentProfileMock());
   const expectedActions = [
     { type: GET_PROFILE, payload: getCurrentProfileMock() }
   ];
@@ -95,6 +100,33 @@ it("Action : Delete profile", () => {
   const store = mockStore({});
   return store.dispatch(deleteProfile()).then(() => {
     console.log(store.getActions());
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+});
+
+it("Action : create profile", () => {
+  moxios.wait(() => {
+    const request = moxios.requests.mostRecent();
+    request.respondWith({
+      status: 200,
+      response: {}
+    });
+  });
+
+  const store = mockStore({});
+  const history = { push: jest.fn() };
+  return store.dispatch(createProfile({}, history)).then(() => {
+    expect(history.push).toHaveBeenCalledWith("/dashboard");
+  });
+});
+
+it("Action : delete experience", () => {
+  respondWith(200, { profile: { id: 1 } });
+  const store = mockStore({});
+  const expectedActions = [
+    { type: GET_PROFILE, payload: { profile: { id: 1 } } }
+  ];
+  return store.dispatch(deleteExperience("id")).then(() => {
     expect(store.getActions()).toEqual(expectedActions);
   });
 });
