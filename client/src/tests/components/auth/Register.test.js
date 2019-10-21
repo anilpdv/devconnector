@@ -7,4 +7,12 @@ describe("Register components", () => {
   it("should render without crashing", () => {
     expect(register).toMatchSnapshot();
   });
+
+  it("should call the function", () => {
+    register.find("form").simulate("submit", {
+      preventDefault: () => {},
+      target: { name: "name", value: "abn" }
+    });
+    expect(register.instance().onSubmit).toHaveBeenCalled();
+  });
 });

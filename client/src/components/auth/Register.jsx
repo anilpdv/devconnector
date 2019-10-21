@@ -28,7 +28,7 @@ export class Register extends Component {
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  onSubmit = async e => {
+  onSubmit = e => {
     const { name, email, password, password2 } = this.state;
     e.preventDefault();
     try {
@@ -65,7 +65,7 @@ export class Register extends Component {
               <p className="lead text-center">
                 Create your DevConnector account
               </p>
-              <form action="create-profile.html" onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
                     type="text"

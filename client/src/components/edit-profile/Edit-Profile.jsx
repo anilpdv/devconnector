@@ -34,6 +34,7 @@ export class CreateProfile extends Component {
       pauseOnHover: true,
       draggable: true
     });
+
   componentDidMount() {
     this.props.getCurrentProfile();
   }

@@ -9,7 +9,7 @@ import {
   getCurrentProfile,
   deleteProfile,
   deleteExperience
-} from "./profile";
+} from "../../actions/profile";
 
 import {
   PROFILE_LOADING,
@@ -17,10 +17,9 @@ import {
   GET_ERRORS,
   GET_PROFILE,
   SET_CURRENT_USER
-} from "./types";
+} from "../../actions/types";
 
-import { getCurrentProfileMock, createProfileMock } from "./mocks/actions";
-import { create } from "istanbul-reports";
+import { getCurrentProfileMock, createProfileMock } from "../mocks/actions";
 
 const middleware = [thunk];
 const mockStore = configureMockStore(middleware);

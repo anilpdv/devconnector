@@ -9,6 +9,7 @@ import ProfileActions from "./ProfileActions";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Experience from "./Experience";
+import Education from "./Education";
 
 export class Dashboard extends Component {
   componentDidMount() {
@@ -70,8 +71,12 @@ export class Dashboard extends Component {
           */}{" "}
             </p>
             <ProfileActions />
+
             {profile.profile.experience && (
-              <Experience experience={profile.profile.experience} />
+              <Fragment>
+                <Experience experience={profile.profile.experience} />
+                <Education education={profile.profile.education} />
+              </Fragment>
             )}
             {/* TODO : education and profile */}
             <div className="delete">

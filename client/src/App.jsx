@@ -17,6 +17,8 @@ import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/Edit-Profile";
 import AddEducation from "./components/profile-forms/AddEducation";
 import AddExperience from "./components/profile-forms/AddExperience";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
 
 // check if the auth token exists
 if (localStorage.token) {
@@ -38,9 +40,14 @@ function App() {
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <PrivateRoute path="/create-profile" component={CreateProfile} />
           <Route path="/edit-profile" component={EditProfile} />
+          <Route path="/profiles" component={Profiles} />
+          <Route path="/profile/:handle" component={Profile} />
 
           <Route path="/add-experience" component={AddExperience} />
-          <Route path="/add-education" component={AddEducation} />
+          <Route
+            path="/add-education"
+            render={props => <AddEducation {...props} />}
+          />
         </Switch>
         <Footer />
       </Router>
